@@ -17,9 +17,12 @@ import edu.wpi.first.wpilibj.Ultrasonic.Unit;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class UltrasonicSensor extends Subsystem {
+public class Sensor extends Subsystem {
   
-  private final AnalogInput m_ultra;
+  private final AnalogInput m_line0;
+  private final AnalogInput m_line1;
+  private final AnalogInput m_line2;
+
   //private final Ultrasonic m_ultra;
 
   private final int factor = 50;
@@ -27,7 +30,7 @@ public class UltrasonicSensor extends Subsystem {
   //private final DigitalInput m_echo;
   //private final DigitalOutput m_ping;
 
-  public UltrasonicSensor() {
+  public Sensor() {
     //m_echo = new DigitalInput(1);
     //m_ping = new DigitalOutput(2);
     //m_ultra = new Ultrasonic(m_ping, m_echo);
@@ -35,30 +38,40 @@ public class UltrasonicSensor extends Subsystem {
     //m_ultra.setAutomaticMode(true);
     //m_ultra.setEnabled(true);
 
-    m_ultra = new AnalogInput(1);
+    m_line0 = new AnalogInput(0);
+    m_line1 = new AnalogInput(1);
+    m_line2 = new AnalogInput(2);
 
-    m_ultra.setOversampleBits(2);
-    m_ultra.setAverageBits(5);
+    //m_ultra.setOversampleBits(2);
+    //m_ultra.setAverageBits(5);
   }
   
   public double getVoltage() {
-    return m_ultra.getVoltage();
+    return m_line0.getVoltage();
   }
 
   public double getAvgVoltage() {
-    return m_ultra.getAverageVoltage();
+    return m_line0.getAverageVoltage();
   }
 
   public double getInches() {
     return ((getAvgVoltage() -.27) * factor) + 10;
   }
   
-  public int getValue() {
-    return m_ultra.getValue();
+  public int getValue0() {
+    return m_line0.getValue();
+  }
+  
+  public int getValue1() {
+    return m_line1.getValue();
+  }
+
+  public int getValue2() {
+    return m_line2.getValue();
   }
 
   public int getAvgValue() {
-    return m_ultra.getAverageValue();
+    return m_line0.getAverageValue();
   }
   /*
   public double getRangeInches() {
@@ -77,11 +90,13 @@ public class UltrasonicSensor extends Subsystem {
   } 
   */
   public void reportToSmartDashboard() {
-    SmartDashboard.putNumber("Value", getValue());
+    SmartDashboard.putNumber("Value Line 0", getValue0());
+    SmartDashboard.putNumber("Value Line 1", getValue1());
+    SmartDashboard.putNumber("Value Line 2", getValue2());
     SmartDashboard.putNumber("Average Value", getAvgValue());
     SmartDashboard.putNumber("Voltage", getVoltage());
     SmartDashboard.putNumber("Average Voltage", getAvgVoltage());
-    SmartDashboard.putNumber("Distance", getInches());
+    //SmartDashboard.putNumber("Distance", getInches());
     //SmartDashboard.putNumber("PID Range", getPIDRange());
     //SmartDashboard.putNumber("Range Inches", getRangeInches());
     //SmartDashboard.putNumber("Range MM", getRangeMM());

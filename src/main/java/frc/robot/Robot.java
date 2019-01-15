@@ -12,7 +12,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.UltrasonicSensor;;
+import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Sensor;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,7 +23,8 @@ import frc.robot.subsystems.UltrasonicSensor;;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static UltrasonicSensor ultra;
+  public static Sensor sensor;
+  public static Drive drive;
   public static OI oi;
 
   Command m_autonomousCommand;
@@ -34,7 +36,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    ultra = new UltrasonicSensor();
+    sensor = new Sensor();
+    drive = new Drive();
     oi = new OI();
         
     //m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
@@ -61,13 +64,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    Robot.ultra.reportToSmartDashboard();
+    Robot.sensor.reportToSmartDashboard();
   }
 
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
-    Robot.ultra.reportToSmartDashboard();
+    Robot.sensor.reportToSmartDashboard();
   }
 
   /**
@@ -84,7 +87,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
-    Robot.ultra.reportToSmartDashboard();
+    Robot.sensor.reportToSmartDashboard();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -105,13 +108,12 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
-    Robot.ultra.reportToSmartDashboard();
-    //Robot.ultrasonicsensor.ping();
+    Robot.sensor.reportToSmartDashboard();
   }
 
   @Override
   public void teleopInit() {
-    Robot.ultra.reportToSmartDashboard();
+    Robot.sensor.reportToSmartDashboard();
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
@@ -124,8 +126,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    Robot.ultra.reportToSmartDashboard();
-    //Robot.ultrasonicsensor.ping();
+    Robot.sensor.reportToSmartDashboard();
   }
 
   /**
@@ -133,7 +134,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-    Robot.ultra.reportToSmartDashboard();
-    //Robot.ultrasonicsensor.ping();
+    Robot.sensor.reportToSmartDashboard();
   }
 }

@@ -7,9 +7,16 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.LineFollow;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+    public OI() {
+        SmartDashboard.putData("Line Follow", new LineFollow(150, 0.05));
+    }
 }
