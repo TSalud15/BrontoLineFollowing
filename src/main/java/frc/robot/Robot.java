@@ -65,12 +65,14 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     Robot.sensor.reportToSmartDashboard();
+    Robot.drive.reportToSmartDashboard();
   }
 
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
     Robot.sensor.reportToSmartDashboard();
+    Robot.drive.reportToSmartDashboard();
   }
 
   /**
@@ -88,6 +90,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
     Robot.sensor.reportToSmartDashboard();
+    Robot.drive.reportToSmartDashboard();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -109,11 +112,13 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
     Robot.sensor.reportToSmartDashboard();
+    Robot.drive.reportToSmartDashboard();
   }
 
   @Override
   public void teleopInit() {
     Robot.sensor.reportToSmartDashboard();
+    Robot.drive.reportToSmartDashboard();
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
@@ -127,6 +132,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     Robot.sensor.reportToSmartDashboard();
+    Robot.drive.reportToSmartDashboard();
   }
 
   /**
@@ -135,5 +141,6 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     Robot.sensor.reportToSmartDashboard();
+    Robot.drive.reportToSmartDashboard();
   }
 }

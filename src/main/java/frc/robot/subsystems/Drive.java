@@ -8,39 +8,41 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.nerdherd.lib.drivers.NerdyTalon;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
  */
 public class Drive extends Subsystem {
   
-  private NerdyTalon m_leftmaster, m_leftslave1, m_leftslave2;
-  private NerdyTalon m_rightmaster, m_rightslave1, m_rightslave2;
+  private NerdyTalon m_leftmaster, m_leftslave;
+  private NerdyTalon m_rightmaster, m_rightslave;
 
 
   public Drive() {
     m_leftmaster = new NerdyTalon(1);
-    m_leftslave1 = new NerdyTalon(2);
-    m_leftslave2 = new NerdyTalon(3);
-    m_rightmaster = new NerdyTalon(4);
-    m_rightslave1 = new NerdyTalon(5);
-    m_rightslave2 = new NerdyTalon(6);
+    m_leftslave = new NerdyTalon(5);
+    m_rightmaster = new NerdyTalon(2);
+    m_rightslave = new NerdyTalon(4);
 
-    m_leftslave1.follow(m_leftmaster);
-    m_rightslave1.follow(m_rightmaster);
-    m_leftslave2.follow(m_leftmaster);
-    m_rightslave2.follow(m_rightmaster);
+    m_leftslave.follow(m_leftmaster);
+    m_rightslave.follow(m_rightmaster);
 
-    m_leftmaster.setInverted(true);
-    m_leftslave1.setInverted(true);
-    m_leftslave2.setInverted(true);
+    m_leftmaster.setInverted(false);
+    m_leftslave.setInverted(false);
 
-    m_rightmaster.setInverted(false);
-    m_rightslave1.setInverted(false);
-    m_rightslave2.setInverted(false);
+    m_rightmaster.setInverted(true);
+    m_rightslave.setInverted(true);
+
+    m_leftmaster.setNeutralMode(NeutralMode.Brake);
+    m_leftslave.setNeutralMode(NeutralMode.Brake);
+
+    m_rightmaster.setNeutralMode(NeutralMode.Brake);
+    m_rightslave.setNeutralMode(NeutralMode.Brake);
   }
   
   public void setPower(double leftPower, double rightPower) {
@@ -51,6 +53,19 @@ public class Drive extends Subsystem {
   public void setVoltage(double leftPower, double rightPower) {
     m_leftmaster.set(ControlMode.PercentOutput, leftPower/12);
     m_rightmaster.set(ControlMode.PercentOutput, rightPower/12);
+  }
+
+  public double getLeftPercent() {
+    return m_leftmaster.getMotorOutputPercent();
+  }
+
+  public double getRightPercent() {
+    return m_rightmaster.getMotorOutputPercent();
+  }
+
+  public void reportToSmartDashboard() {
+    SmartDashboard.putNumber("Left Master Output", getLeftPercent());
+    SmartDashboard.putNumber("Right Master Output", getRightPercent());
   }
 
   @Override

@@ -7,7 +7,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.LineFollow;
 
@@ -17,6 +16,6 @@ import frc.robot.commands.LineFollow;
  */
 public class OI {
     public OI() {
-        SmartDashboard.putData("Line Follow", new LineFollow(150, 0.05));
+        SmartDashboard.putData("Line Follow", new LineFollow(0.2));
     }
 }

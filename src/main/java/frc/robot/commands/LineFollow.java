@@ -13,11 +13,14 @@ import frc.robot.Robot;
 
 public class LineFollow extends Command {
 
-  private int m_threshold; //threshold value = 2800
+  private int m_threshold; 
   private double m_power;
+  private double m_offset;
 
-  public LineFollow(int threshold, double power) {
-    m_threshold = threshold;
+  public LineFollow(double power) {
+    m_power = power;
+    m_threshold = 150;
+    m_offset = 0.05;
     requires(Robot.sensor);
   }
 
@@ -34,20 +37,20 @@ public class LineFollow extends Command {
     
     if (Robot.sensor.getValue1() < m_threshold) {
       if (Robot.sensor.getValue0() < m_threshold) {
-        Robot.drive.setPower(m_power - 0.05, m_power + 0.05);
+        Robot.drive.setPower(m_power - m_offset, m_power + m_offset);
       } 
   
       if (Robot.sensor.getValue2() < m_threshold) {
-        Robot.drive.setPower(m_power + 0.05, m_power - 0.05);
+        Robot.drive.setPower(m_power + m_offset, m_power - m_offset);
       }
 
-      else {
+      else if (Robot.sensor.getValue0() > m_threshold && Robot.sensor.getValue2() > m_threshold 
+                && Robot.sensor.getValue1() < m_threshold) {
         Robot.drive.setPower(m_power, m_power);
-      }
+      } 
   }
 
   }
-
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
