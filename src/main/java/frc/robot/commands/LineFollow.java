@@ -19,7 +19,7 @@ public class LineFollow extends Command {
 
   public LineFollow(double power) {
     m_power = power;
-    m_threshold = 150;
+    m_threshold = 3500;
     m_offset = 0.05;
     requires(Robot.sensor);
   }
@@ -32,19 +32,19 @@ public class LineFollow extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    SmartDashboard.putBoolean("Line Found, Left", Robot.sensor.getValue0() < m_threshold);
-    SmartDashboard.putBoolean("Line Found, Right", Robot.sensor.getValue2() < m_threshold);
-    
+    SmartDashboard.putBoolean("Line Found, Left", Robot.sensor.getValue0() < m_threshold + 150);
+    SmartDashboard.putBoolean("Line Found, Right", Robot.sensor.getValue2() < m_threshold + 150);
+
     if (Robot.sensor.getValue1() < m_threshold) {
-      if (Robot.sensor.getValue0() < m_threshold) {
+      if (Robot.sensor.getValue0() < m_threshold + 150) {
         Robot.drive.setPower(m_power - m_offset, m_power + m_offset);
       } 
   
-      if (Robot.sensor.getValue2() < m_threshold) {
+      if (Robot.sensor.getValue2() < m_threshold + 150) {
         Robot.drive.setPower(m_power + m_offset, m_power - m_offset);
       }
 
-      else if (Robot.sensor.getValue0() > m_threshold && Robot.sensor.getValue2() > m_threshold 
+      else if (Robot.sensor.getValue0() > m_threshold + 150 && Robot.sensor.getValue2() > m_threshold + 150 
                 && Robot.sensor.getValue1() < m_threshold) {
         Robot.drive.setPower(m_power, m_power);
       } 
@@ -60,11 +60,13 @@ public class LineFollow extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.drive.setPower(0, 0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

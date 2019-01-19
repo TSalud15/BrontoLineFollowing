@@ -72,7 +72,7 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
     Robot.sensor.reportToSmartDashboard();
-    Robot.drive.reportToSmartDashboard();
+    Robot.drive.reportToSmartDashboard();  
   }
 
   /**
@@ -89,6 +89,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
+    
     Robot.sensor.reportToSmartDashboard();
     Robot.drive.reportToSmartDashboard();
 
