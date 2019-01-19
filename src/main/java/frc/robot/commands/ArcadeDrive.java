@@ -11,16 +11,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
-public class LineFollow extends Command {
+public class ArcadeDrive extends Command {
 
-  private int m_threshold; 
-  private double m_power;
-  private double m_offset;
+  public double m_leftPower, m_rightPower;
 
-  public LineFollow(double power) {
-    m_power = power;
-    m_threshold = 3150;
-    m_offset = 0.06;
+  public ArcadeDrive() {
     requires(Robot.drive);
   }
 
@@ -32,25 +27,12 @@ public class LineFollow extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    SmartDashboard.putBoolean("Line Found, Left", Robot.sensor.getValue0() < m_threshold);
-    SmartDashboard.putBoolean("Line Found, Right", Robot.sensor.getValue2() < m_threshold);
+    m_leftPower = Robot.oi.getLeftJoyX() + Robot.oi.getRightJoyY();
+    m_rightPower = -Robot.oi.getLeftJoyX() + Robot.oi.getRightJoyY();
 
-    if (Robot.sensor.getValue1() < m_threshold) {
-      if (Robot.sensor.getValue0() < m_threshold + 200) {
-        Robot.drive.setPower(m_power - (m_offset + 0.02), m_power + (m_offset + 0.02));
-      } 
-  
-      if (Robot.sensor.getValue2() < m_threshold + 100) {
-        Robot.drive.setPower(m_power + (m_offset - 0.00), m_power - (m_offset - 0.00));
-      }
-
-      else if (Robot.sensor.getValue0() > m_threshold && Robot.sensor.getValue2() > m_threshold 
-                && Robot.sensor.getValue1() < m_threshold) {
-        Robot.drive.setPower(m_power, m_power);
-      } 
+    Robot.drive.setPower(m_leftPower, m_rightPower);
   }
 
-  }
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
@@ -60,13 +42,11 @@ public class LineFollow extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.drive.setPower(0, 0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }

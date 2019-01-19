@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.LineFollow;
 
@@ -15,7 +17,34 @@ import frc.robot.commands.LineFollow;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+    public Joystick rightJoy;
+    public Joystick leftJoy;
+
+    public JoystickButton lineFollow_1;
+
     public OI() {
+        rightJoy = new Joystick(0);
+        leftJoy = new Joystick(1);
+
+        lineFollow_1 = new JoystickButton(leftJoy, 7);
+        lineFollow_1.whileHeld(new LineFollow(0.2));
+
         SmartDashboard.putData("Line Follow", new LineFollow(0.2));
+    }
+
+    public double getLeftJoyX() {
+        return leftJoy.getX();
+    }
+
+    public double getRightJoyX() {
+        return rightJoy.getX();
+    }
+
+    public double getLeftJoyY() {
+        return -leftJoy.getY();
+    }
+
+    public double getRightJoyY() {
+        return -rightJoy.getY();
     }
 }
