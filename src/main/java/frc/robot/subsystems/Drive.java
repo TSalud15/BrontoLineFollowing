@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.nerdherd.lib.drivers.NerdyTalon;
 
@@ -22,6 +23,7 @@ public class Drive extends Subsystem {
   
   private NerdyTalon m_leftmaster, m_leftslave;
   private NerdyTalon m_rightmaster, m_rightslave;
+  private NerdyTalon m_bonusline1;
 
 
   public Drive() {
@@ -29,6 +31,9 @@ public class Drive extends Subsystem {
     m_leftslave = new NerdyTalon(5);
     m_rightmaster = new NerdyTalon(2);
     m_rightslave = new NerdyTalon(4);
+    m_bonusline1 = new NerdyTalon(14);
+
+    m_bonusline1.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
 
     m_leftslave.follow(m_leftmaster);
     m_rightslave.follow(m_rightmaster);
@@ -62,6 +67,10 @@ public class Drive extends Subsystem {
 
   public double getRightPercent() {
     return m_rightmaster.getMotorOutputPercent();
+  }
+
+  public double getEncoderValue() {
+    return m_bonusline1.getMotorOutputPercent();
   }
 
   public void reportToSmartDashboard() {
